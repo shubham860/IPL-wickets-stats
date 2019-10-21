@@ -1,6 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
 
 dataset = pd.read_csv('deliveries.csv')
 
@@ -22,7 +26,6 @@ temp2[0] = temp2[0].fillna("No-wicket")
 y = temp2
 del(temp2)
 
-from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 
 X[:,2] = le.fit_transform(X[:,2])
@@ -33,14 +36,12 @@ X[:,8] = le.fit_transform(X[:,8])
 X[:,18] = le.fit_transform(X[:,18])
 X[:,19] = le.fit_transform(X[:,19])
 
-from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder(categorical_features=[2,3,6,7,8,18,19])
 X = ohe.fit_transform(X)
 X = X.toarray()
 
 y = le.fit_transform(y)
 
-from sklearn.preprocessing import StandardScaler
 std = StandardScaler()
 X = std.fit_transform(X)
 
@@ -48,7 +49,6 @@ X = std.fit_transform(X)
 from sklearn.model_selection import train_test_split
 X_train,X_test,y_train,y_test = train_test_split(X,y)
 
-from sklearn.tree import DecisionTreeClassifier
 dtc = DecisionTreeClassifier()
 dtc.fit(X_train,y_train)
 dtc.score(X_train,y_train)
